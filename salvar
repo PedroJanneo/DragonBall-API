@@ -1,8 +1,7 @@
 const getData = (listaDePersonagens) => {
   let cardPersonagem = document.getElementById("CardPersonagem");
-
   cardPersonagem.innerHTML = ""; // Limpa o conteúdo anterior, se necessário
-  listaDePersonagens.items.forEach(function (item) {
+  listaDePersonagens.forEach(function (item) {
     let divCaixaPersonagem = document.createElement("div");
     let h2Nome = document.createElement("h2");
     let textoNome = document.createTextNode(item.name);
@@ -53,14 +52,56 @@ const getData = (listaDePersonagens) => {
   });
 };
 
-const getAPIAll = async () => {
-  let url = "https://dragonball-api.com/api/characters?limit=10"
-  let response = await fetch(url)
-  let dadosPersonagens = await response.json()
+const getDataApi = async (personagem) => {
+  let url = `https://dragonball-api.com/api/characters?name=${personagem}`;
+  try {
+    let response = await fetch(url);
+    let dadosPersonagens = await response.json();
+    if (dadosPersonagens && dadosPersonagens.length) {
+      getData(dadosPersonagens);
+    } else {
+      console.error("Nenhum personagem encontrado");
+    }
+  } catch (error) {
+    console.error("Erro ao buscar dados:", error);
+  }
+};
 
-  getData(dadosPersonagens)
-}
+const loadInitialCharacters = async () => {
+  let url = "https://dragonball-api.com/api/characters"; // URL para pegar os primeiros 10 personagens
+  try {
+    let response = await fetch(url);
+    let dadosPersonagens = await response.json();
+    if (dadosPersonagens && dadosPersonagens.length) {
+      getData(dadosPersonagens.slice(0, 10)); // Carrega apenas os 10 primeiros
+    } else {
+      console.error("Nenhum personagem encontrado");
+    }
+  } catch (error) {
+    console.error("Erro ao buscar dados:", error);
+  }
+};
 
-window.addEventListener('load', function(){
-  getApiAl()
-})
+window.addEventListener("load", () => {
+  loadInitialCharacters(); // Carrega os personagens ao abrir a página
+
+  let botao = document.getElementById("enviar");
+  botao.addEventListener("click", function (event) {
+    event.preventDefault(); // Impede o envio do formulário
+    let personagem = document.getElementById("escolherPersonagem").value.trim(); // Remove espaços em branco
+    if (personagem) {
+      // Verifica se o input não está vazio
+      console.log(personagem); // Mostra o personagem no console
+      getDataApi(personagem); // Chama a API com o personagem
+    } else {
+      console.log("Por favor, insira um nome de personagem."); // Mensagem para input vazio
+    }
+  });
+
+  // Função para limpar a lista de personagens
+  let limparBotao = document.getElementById("limpar");
+  limparBotao.addEventListener("click", function () {
+    document.getElementById("CardPersonagem").innerHTML = ""; // Limpa os personagens exibidos
+    document.getElementById("escolherPersonagem").value = ""; // Limpa o input
+  });
+});
