@@ -1,7 +1,7 @@
 const getData = (listaDePersonagens) => {
   let cardPersonagem = document.getElementById("CardPersonagem");
+  cardPersonagem.innerHTML = "";
 
-  cardPersonagem.innerHTML = ""; // Limpa o conteúdo anterior, se necessário
   listaDePersonagens.items.forEach(function (item) {
     let divCaixaPersonagem = document.createElement("div");
     let h2Nome = document.createElement("h2");
@@ -14,22 +14,22 @@ const getData = (listaDePersonagens) => {
     let pSobreMais = document.createElement("p");
 
     let textoDescricao = document.createTextNode(
-      item.description || "Descrição não disponível"
+      item.description
     );
     let textoRace = document.createTextNode(
-      `Raça: ${item.race || "Raça desconhecida"}`
+      `Raça: ${item.race }`
     );
     let textoGender = document.createTextNode(
-      `Gênero: ${item.gender || "Gênero desconhecido"}`
+      `Gênero: ${item.gender }`
     );
     let textoAffiliation = document.createTextNode(
-      `Afilição: ${item.affiliation || "Afilição desconhecida"}`
+      `Afilição: ${item.affiliation}`
     );
 
     divCaixaPersonagem.setAttribute("class", "caixaPersonagens");
     h2Nome.setAttribute("class", "Nome");
     figureImagem.setAttribute("class", "imagem");
-    img.setAttribute("src", item.image || "default-image-url.jpg");
+    img.setAttribute("src", item.image );
     img.setAttribute("alt", `Imagem de ${item.name}`);
     divCaixaSobre.setAttribute("class", "descricao");
     divCaixaMaisSobre.setAttribute("class", "maisSobre");
@@ -54,13 +54,37 @@ const getData = (listaDePersonagens) => {
 };
 
 const getAPIAll = async () => {
-  let url = "https://dragonball-api.com/api/characters?limit=10"
-  let response = await fetch(url)
-  let dadosPersonagens = await response.json()
+  let url = "https://dragonball-api.com/api/characters?limit=58";
+  let response = await fetch(url);
+  
+  return await response.json(); // Retorna os dados em formato JSON
+};
 
-  getData(dadosPersonagens)
-}
+const getAPi = async (event) => {
+  event.preventDefault(); // Previne o recarregamento da página
+  let inputP = document.getElementById("escolherPersonagem");
+  let personagem = inputP.value.toLowerCase(); 
+  let todosPersonagens = await getAPIAll(); // Obter todos os personagens
 
-window.addEventListener('load', function(){
-  getApiAl()
-})
+  if (todosPersonagens) {
+    let personagensFiltrados = {
+      items: todosPersonagens.items.filter(item =>
+        item.name.toLowerCase().includes(personagem) // Filtra pelo nome
+      )
+    };
+
+    // Passar os personagens filtrados para a função getData
+    getData(personagensFiltrados);
+  }
+};
+
+let pesquisar = document.getElementById("enviar");
+pesquisar.addEventListener('click', getAPi);
+
+window.addEventListener('load', async function() {
+  let todosPersonagens = await getAPIAll();
+  if (todosPersonagens) {
+    getData(todosPersonagens); // Exibe todos os personagens ao carregar
+  }
+  alert("Este site ira trazer dados em espanhol")
+});
