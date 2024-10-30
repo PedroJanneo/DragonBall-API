@@ -1,7 +1,3 @@
-html, body {
-    height: 100%; /* Faz com que o body ocupe toda a altura da janela */
-    margin: 0; /* Remove margens padrão */
-}
 
 body {
     background-color: #272B33; /* Cor de fundo */
