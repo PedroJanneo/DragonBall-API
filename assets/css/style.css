@@ -1,10 +1,17 @@
-
-body {
-    background-color: #272B33; /* Cor de fundo */
+body{    /* background-color: #272B33; Cor de fundo */
     font-family: Arial, sans-serif; /* Fonte padrão */
     display: flex; /* Ativa flexbox no body */
     flex-direction: column; /* Organiza os filhos em coluna */
+    background-image: url(../img/PlanoFundoMelhorado.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% auto; /* Largura 100%, altura proporcional */
+    background-position: center;
+    background-attachment: fixed; /* Mantém a imagem fixa durante o scroll */
+    max-width: 1200px; /* Ajuste conforme necessário */
+    margin: 0 auto; /* Centraliza o body se tiver um limite de largura */
+    
 }
+
 
 .form-container {
     display: flex; /* Ativa flexbox para centralizar */
@@ -13,6 +20,9 @@ body {
     margin: 20px 0; /* Espaçamento acima e abaixo do formulário */
 }
 
+.maisSobre{
+    color: white;
+}
 #CardPersonagem {
     flex: 1; /* Permite que este container cresça e ocupe o espaço disponível */
     display: flex;
@@ -23,7 +33,7 @@ body {
 
 /* Estilo do card do personagem */
 .caixaPersonagens {
-    background-color: #f8f9fa;
+    background-color: transparent;
     border: 1px solid #dee2e6;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -32,15 +42,29 @@ body {
     width: 150px; /* Ajuste para o tamanho desejado */
     transition: transform 0.3s;
 }
-
+/* HOVERS */
 .caixaPersonagens:hover {
-    transform: scale(1.05);
+    transform: scale(1.15);
+    background-color: #ffffff;
+    color: #000000;
+    
 }
 
+.caixaPersonagens:hover > .Nome{
+    color: black;
+}
+
+.caixaPersonagens:hover > .descricao{
+    color: #000000;
+}
+
+.caixaPersonagens:hover .maisSobre{
+    color: #000000;
+}
 /* Estilo do nome do personagem */
 .Nome {
     font-size: 1.2em; /* Ajustado */
-    color: #343a40;
+    color: rgb(255, 255, 255);
     margin: 5px 0; /* Ajustado */
     text-align: center;
 }
@@ -60,7 +84,7 @@ body {
 /* Estilo da descrição */
 .descricao {
     font-size: 0.8em; /* Ajustado */
-    color: #495057;
+    color: #ffffff;
 }
 
 /* Estilo da seção de mais informações */
@@ -77,13 +101,12 @@ p {
 
 /* Header */
 header {
-    background-color: #3b3f47; /* Cor de fundo do header ajustada */
-    color: #ffffff; /* Cor do texto */
-    padding: 20px; /* Espaçamento interno */
+    background-image: url(../img/logoAPI.webp);
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    background-size: contain; /* Ajusta a imagem para caber no header */
+    background-position: center; /* Centraliza a imagem */
+    height: 100px; /* Defina uma altura adequada */
     text-align: center; /* Centraliza o texto */
-    font-size: 1.8em; /* Tamanho da fonte */
-    font-weight: bold; /* Negrito */
-    border-bottom: 2px solid #2c2f33; /* Borda inferior mais escura */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
 }
 
